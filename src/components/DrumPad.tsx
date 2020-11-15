@@ -1,10 +1,13 @@
-import React from 'react'
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import {DrumPadProps} from '../types/DrumPadProps'
 
-export const DrumPad = (props: any) => {
+export const DrumPad = (props: DrumPadProps) => {
     const key = props.pad.key;
     return <div>
-        <button onClick={() => props.parentCallback(key)}>{key}
+        <Button onClick={() => props.parentCallback(key)} variant="outline-info" size="lg" block>
+            {key}
             <audio id={key} src={props.pad[props.instrument]}  className='clip'/>
-        </button>
+        </Button>
     </div>
 }

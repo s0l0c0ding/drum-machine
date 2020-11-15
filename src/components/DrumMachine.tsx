@@ -2,6 +2,11 @@ import React from "react";
 import { Pad } from "../types/Pad";
 import { DrumPad } from "./DrumPad";
 import playSoundElement from '../utils/playSoundElement';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 interface IDrumMachineProps { }
 
@@ -43,31 +48,51 @@ export class DrumMachine extends React.Component<IDrumMachineProps, IDrumMachine
 
   keyPressed = (event: any) => {
     const key = event.key.toUpperCase();
-    if(padsArr.map(p => p.key).includes(key)){
+    if (padsArr.map(p => p.key).includes(key)) {
       this.getDisplyDataCallback(key);
     }
   }
 
   render() {
     return (
-      <div id='drum-machine' onKeyDown={this.keyPressed}>
-        <p id='display'>
-        {this.state.display}
-        </p>
-        <button onClick={this.changeInstrument} > change instrument</button>
-        {
-          this.state.pads.map((element, i) => {
-            return (
-              <div className='drum-pad' id={element.key + i}>
-                <DrumPad key={element.key}
-                  pad={element}
-                  parentCallback={this.getDisplyDataCallback}
-                  instrument={this.state.instrument} />
-              </div>
-            );
-          })
-        }
-      </div>
+      <Card >
+      <Container className=" mt-4 mb-4">
+        <Row className="justify-content-md-center">
+          <Col sm={3}>
+            <p id='display'>
+              {this.state.display}
+            </p>
+          </Col>
+          <Col sm={{ span: 1, offset: 3 }}>
+            <Button onClick={this.changeInstrument} variant="light">{this.state.instrument.substr(5)}</Button>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <div id='drum-machine' onKeyDown={this.keyPressed}>
+            <Col sm={12}>
+              <Container className='mt-2'>
+                <Row>
+                  {
+                    this.state.pads.map((element, i) => {
+                      return (
+                        <Col sm={4} className="mt-2">
+                          <div className='drum-pad' id={element.key + i}>
+                            <DrumPad key={element.key}
+                              pad={element}
+                              parentCallback={this.getDisplyDataCallback}
+                              instrument={this.state.instrument} />
+                          </div>
+                        </Col>
+                      );
+                    })
+                  }
+                </Row>
+              </Container>
+            </Col>
+          </div>
+        </Row>
+      </Container>
+      </Card>
     )
   }
 }
